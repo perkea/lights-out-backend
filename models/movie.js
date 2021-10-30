@@ -3,14 +3,11 @@ const Schema = mongoose.Schema;
 
 const movieSchema = new Schema(
   {
-    id: {
-      type: Number,
-    },
-
+    id: Number,
     reviews: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Review",
+        ref: "Reviews",
       },
     ],
   },

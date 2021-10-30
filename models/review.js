@@ -2,12 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema(
-  {Rating:{
-      Type:Number,
+  {rating:Number
   },
-  review:{
-    type:String  
-  }},
   { timestamps: true }
 );
 
