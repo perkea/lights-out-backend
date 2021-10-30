@@ -59,18 +59,18 @@ app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies	// access static files in the public folder (e.g. CSS)
 app.use(express.urlencoded({extended: false}))		// needed for delete/update/edit routes
 // methodOverride - allows forms to use push/delete methods; '_method' is a query parameter attached to the path for update/delete routes
-app.use(methodOverride('_method'))	
-app.use('/', usersController);
+app.use(methodOverride('_method'));	
+app.use("/", usersController);
 app.use("/movies", movieController);	
 app.use("/reviews", reviewController);
 app.use(expressSession({
-    secret: 'cknlkclnclnen', // this is used to digitally sign our session cookies (prevents forgery)
+    secret: "cknlkclnclnen", // this is used to digitally sign our session cookies (prevents forgery)
     resave: false, // this option updates session storage after request
     saveUninitialized: false 
-}))	
+}));
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
-})
+});
 
 app.use(async function(req, res, next){
 const token = req.get("Authorization");
@@ -82,12 +82,12 @@ if(token){
 }
 
 next();
-})
+});
 
 function isAuthenticated(req, res, next){
   if(req.user)return next()
   else res.status(401).json({message:"unauthorized"})
-  }
+  };
 // =======================================
 //              CONTROLLERS
 // =======================================
@@ -99,7 +99,7 @@ function isAuthenticated(req, res, next){
 app.get(`/`, function(req, res) {
 	res.send(`Hello World!`)
 })
-app.get('/api', (req, res) => {
+app.get("api", (req, res) => {
   res.json({message: 'Welcome to the React CRM API'})
 });
 app.get("/api", (req, res)=>{
