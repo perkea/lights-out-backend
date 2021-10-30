@@ -3,14 +3,14 @@
 // =======================================
 const express = require("express")
 const mongoose = require("mongoose")
-const logger = require('morgan');
+const logger = require("morgan");
 const cors = require("cors");
 const morgan = require("morgan");
-const methodOverride = require('method-override');
+const methodOverride = require("method-override");
 // —> remember to add any required ejs files (below is an example)
 const User = require("./models/user");
 const usersController = require("./controllers/users"); 
-const expressSession = require('express-session'); 
+const expressSession = require("express-session"); 
 const admin = require("firebase-admin")
 const  serviceAccount= require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
 const Movie = require("../backend/models/movie");
