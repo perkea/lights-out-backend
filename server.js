@@ -13,9 +13,9 @@ const usersController = require("./controllers/users");
 const expressSession = require("express-session"); 
 const admin = require("firebase-admin")
 const  serviceAccount= require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
-const Movie = require("../backend/models/movie");
+// const Movie = require("../backend/models/movie");
 const Review = require("../backend/models/review");
-const movieController = require("../backend/controllers/movies");
+// const movieController = require("../backend/controllers/movies");
 const reviewController= require("../backend/controllers/reviews");
 
 // =======================================
@@ -61,7 +61,7 @@ app.use(express.urlencoded({extended: false}))		// needed for delete/update/edit
 // methodOverride - allows forms to use push/delete methods; '_method' is a query parameter attached to the path for update/delete routes
 app.use(methodOverride('_method'));	
 app.use("/", usersController);
-app.use("/movies", movieController);	
+// app.use("/movies", movieController);	
 app.use("/reviews", reviewController);
 app.use(expressSession({
     secret: "cknlkclnclnen", // this is used to digitally sign our session cookies (prevents forgery)
