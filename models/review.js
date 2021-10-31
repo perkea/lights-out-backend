@@ -11,12 +11,7 @@ const reviewSchema = new mongoose.Schema(
     },
     movieId: {
       type: String,
-    },
-
-    // movieId: {
-    //   type: mongoose.Types.ObjectId,
-    //   ref: "Movie",
-    // },
+    }
   },
   { timestamps: true }
 );
