@@ -13,7 +13,6 @@ const usersController = require("./controllers/users");
 const expressSession = require("express-session"); 
 const admin = require("firebase-admin")
 const  serviceAccount= require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
-// const Movie = require("../backend/models/movie");
 const Review = require("../backend/models/review");
 // const movieController = require("../backend/controllers/movies");
 const reviewController= require("../backend/controllers/reviews");
