@@ -18,6 +18,7 @@ const movieSchema = new Schema(
     review: {
       type: String,
     },
+    managedBy:String,
   },
   { timestamps: true }
 );
