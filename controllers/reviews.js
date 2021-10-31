@@ -1,5 +1,4 @@
 const express = require(`express`);
-const Movie = require("../models/movie");
 const Review = require("../models/review");
 const reviewRouter = express.Router();
 const seedData = require("../seedData");
