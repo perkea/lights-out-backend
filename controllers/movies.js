@@ -4,11 +4,7 @@ const Review = require("../models/review");
 const movieRouter = express.Router()
 
 
-const createMovie = function(movie){
-return Movie.create(movie).then(movie =>{
-  return movie;  
-})
-}
+
 
 
 
