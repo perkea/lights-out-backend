@@ -4,7 +4,11 @@ const Review = require("../models/review");
 const movieRouter = express.Router()
 
 
-
+movieRouter.get("/", async(req, res)=>{
+try{
+    res.json(await Movie.find)
+}
+})
 
 
 
