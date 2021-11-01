@@ -27,17 +27,17 @@
 const seedData = [
     {
         rating: 5,
-        review: "Good movie",
+        comment :"Good movie",
         movieId: 40561
     },
     {
         rating: 1,
-        review: "Bad movie",
+        comment :"Bad movie",
         movieId: 63576
     },
     {
         rating: 5,
-        review: "Very good!!!!!",
+        comment :"Very good!!!!!",
         movieId: 63576
 
     }
