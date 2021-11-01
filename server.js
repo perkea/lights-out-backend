@@ -7,14 +7,12 @@ const logger = require("morgan");
 const cors = require("cors");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
-// —> remember to add any required ejs files (below is an example)
 const User = require("./models/user");
 const usersController = require("./controllers/users"); 
 const expressSession = require("express-session"); 
 const admin = require("firebase-admin")
 const  serviceAccount= require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
 const Review = require("../backend/models/review");
-// const movieController = require("../backend/controllers/movies");
 const reviewController= require("../backend/controllers/reviews");
 
 // =======================================
@@ -27,7 +25,8 @@ const app = express();
 //              APPLICATION SETTINGS
 // =======================================
 require("dotenv").config(); 		// list this first (or as high in the code as possible!)
-const { PORT = 4000, MONGODB_URL } = process.env
+const { 
+  PORT = 4000, MONGODB_URL } = process.env
 
 
 // =======================================
