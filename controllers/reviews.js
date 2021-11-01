@@ -18,7 +18,6 @@ reviewRouter.get("/addSeedData", (req, res) => {
 // ////////////////////////Seed route////////////////////////////////////
 reviewRouter.get("/", (req, res) => {
   Review.find({}, (err, allReviews) => {
-    //   console.log("found allReview", allReviews)
     res.status(200).json({ success: true, reviews: allReviews });
   });
 });
