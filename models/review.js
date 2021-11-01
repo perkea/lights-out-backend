@@ -6,7 +6,7 @@ const reviewSchema = new mongoose.Schema(
     rating: {
       type: Number,
     },
-    review: {
+    comment: {
       type: String,
     },
     movieId: {
