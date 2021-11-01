@@ -38,8 +38,11 @@ reviewRouter.get("/moviesearch/:movieid", (req, res) => {
 
 reviewRouter.post("/", (req, res) => {
     const review = new Review(req.body);
+    console.log("this is the saved review before", review);
     review.save((error, savedReview) => {
+        console.log("this is the saved review after", savedReview);
       res.status(200).json({ success: true, review: savedReview });
+     
     });
   });
 
