@@ -1,38 +1,41 @@
 // =======================================
 //              DEPENDENCIES
 // =======================================
-const express = require("express")
-const mongoose = require("mongoose")
+const express = require("express");
+const mongoose = require("mongoose");
 const logger = require("morgan");
 const cors = require("cors");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
 const User = require("./models/user");
-const usersController = require("./controllers/users"); 
-const expressSession = require("express-session"); 
-const admin = require("firebase-admin")
-const  serviceAccount= require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
+const usersController = require("./controllers/users");
+const expressSession = require("express-session");
+const admin = require("firebase-admin");
+const serviceAccount = require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
 const Review = require("../backend/models/review");
-const reviewController= require("../backend/controllers/reviews");
+const reviewController = require("../backend/controllers/reviews");
 
 // =======================================
 //              INITIALIZE EXPRESS
 // =======================================
 const app = express();
 
-
 // =======================================
 //              APPLICATION SETTINGS
 // =======================================
-require("dotenv").config(); 		// list this first (or as high in the code as possible!)
-const { 
-  PORT = 4000, MONGODB_URL } = process.env
-
+require("dotenv").config(); // list this first (or as high in the code as possible!)
+const {
+  PORT = 4000,
+  MONGODB_URL,
+  CLIENT_ID,
+  PRIVATE_KEY,
+  PRIVATE_KEY_ID,
+} = process.env;
 
 // =======================================
 //              CONFIGURE DATABASE
 // =======================================
-mongoose.connect(MONGODB_URL)
+mongoose.connect(MONGODB_URL);
 
 // Establish Connection
 mongoose.connect(MONGODB_URL, {
@@ -49,43 +52,47 @@ mongoose.connection
 //              MIDDLEWARE
 // =======================================
 // app.use() will attach middleware
-app.use(express.json());			// turns incoming json data into req.body
-app.use(logger('dev'));			// mounts morgan npm package - aids in testing
-app.use(express.static('public'));
+app.use(express.json()); // turns incoming json data into req.body
+app.use(logger("dev")); // mounts morgan npm package - aids in testing
+app.use(express.static("public"));
 app.use(cors()); // to prevent cors errors, open access to all origins
 app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies	// access static files in the public folder (e.g. CSS)
-app.use(express.urlencoded({extended: false}))		// needed for delete/update/edit routes
+app.use(express.urlencoded({ extended: false })); // needed for delete/update/edit routes
 // methodOverride - allows forms to use push/delete methods; '_method' is a query parameter attached to the path for update/delete routes
-app.use(methodOverride('_method'));	
+app.use(methodOverride("_method"));
 app.use("/", usersController);
-// app.use("/movies", movieController);	
+// app.use("/movies", movieController);
 app.use("/reviews", reviewController);
-app.use(expressSession({
+app.use(
+  expressSession({
     secret: "cknlkclnclnen", // this is used to digitally sign our session cookies (prevents forgery)
     resave: false, // this option updates session storage after request
-    saveUninitialized: false 
-}));
+    saveUninitialized: false,
+  })
+);
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
 });
 
-app.use(async function(req, res, next){
-const token = req.get("Authorization");
-console.log(token);
-if(token){
-  const authUser = await admin.auth().verifyIdToken(token.replace("Bearer ", ""));
-  console.log(authUser);
-  req.user = authUser;
+app.use(async function (req, res, next) {
+  const token = req.get("Authorization");
+  console.log(token);
+  if (token) {
+    const authUser = await admin
+      .auth()
+      .verifyIdToken(token.replace("Bearer ", ""));
+    console.log(authUser);
+    req.user = authUser;
+  }
+
+  next();
+});
+
+function isAuthenticated(req, res, next) {
+  if (req.user) return next();
+  else res.status(401).json({ message: "unauthorized" });
 }
-
-next();
-});
-
-function isAuthenticated(req, res, next){
-  if(req.user)return next()
-  else res.status(401).json({message:"unauthorized"})
-  };
 // =======================================
 //              CONTROLLERS
 // =======================================
@@ -94,16 +101,16 @@ function isAuthenticated(req, res, next){
 // app.use(`/<path>, <name>Controller)
 
 // // —> example to test if root url is working → used just to triple check your server is working
-app.get(`/`, function(req, res) {
-	res.send(`Hello World!`)
-})
-app.get("api", (req, res) => {
-  res.json({message: 'Welcome to the React CRM API'})
+app.get(`/`, function (req, res) {
+  res.send(`Hello World!`);
 });
-app.get("/api", (req, res)=>{
-  res.status(400).json({message:"That route was not found"})
-     });
- 
+app.get("api", (req, res) => {
+  res.json({ message: "Welcome to the React CRM API" });
+});
+app.get("/api", (req, res) => {
+  res.status(400).json({ message: "That route was not found" });
+});
+
 // PEOPLE INDEX ROUTE
 app.get("/users", async (req, res) => {
   try {
@@ -127,31 +134,29 @@ app.post("/users", async (req, res) => {
 });
 // PEOPLE DELETE ROUTE
 app.delete("/users/:id", async (req, res) => {
-    try {
-      // send all people
-      res.json(await User.findByIdAndRemove(req.params.id));
-    } catch (error) {
-      //send error
-      res.status(400).json(error);
-    }
-  });
-  
-  // PEOPLE UPDATE ROUTE
-  app.put("/users/:id", async (req, res) => {
-    try {
-      // send all people
-      res.json(
-        await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
-      );
-    } catch (error) {
-      //send error
-      res.status(400).json(error);
-    }
-  });
- 
+  try {
+    // send all people
+    res.json(await User.findByIdAndRemove(req.params.id));
+  } catch (error) {
+    //send error
+    res.status(400).json(error);
+  }
+});
+
+// PEOPLE UPDATE ROUTE
+app.put("/users/:id", async (req, res) => {
+  try {
+    // send all people
+    res.json(
+      await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    );
+  } catch (error) {
+    //send error
+    res.status(400).json(error);
+  }
+});
+
 // =======================================
 //              LISTENER
 // =======================================
-app.listen(PORT, () => 
-console.log(` listening on port: ${PORT}`)
-);
+app.listen(PORT, () => console.log(` listening on port: ${PORT}`));
