@@ -12,8 +12,8 @@ const usersController = require("./controllers/users");
 const expressSession = require("express-session");
 const admin = require("firebase-admin");
 // const serviceAccount = require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
-const Review = require("../backend/models/review");
-const reviewController = require("../backend/controllers/reviews");
+// const Review = require("../backend/models/review");
+const reviewController = require("./controllers/reviews");
 
 // =======================================
 //              INITIALIZE EXPRESS
