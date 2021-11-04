@@ -51,7 +51,6 @@ mongoose.connection
 // =======================================
 //              MIDDLEWARE
 // =======================================
-// app.use() will attach middleware
 app.use(express.json()); // turns incoming json data into req.body
 app.use(logger("dev")); // mounts morgan npm package - aids in testing
 app.use(express.static("public"));
@@ -62,7 +61,6 @@ app.use(express.urlencoded({ extended: false })); // needed for delete/update/ed
 // methodOverride - allows forms to use push/delete methods; '_method' is a query parameter attached to the path for update/delete routes
 app.use(methodOverride("_method"));
 app.use("/", usersController);
-// app.use("/movies", movieController);
 app.use("/reviews", reviewController);
 app.use(
   expressSession({
@@ -107,19 +105,14 @@ function isAuthenticated(req, res, next) {
   if (req.user) return next();
   else res.status(401).json({ message: "unauthorized" });
 }
-// =======================================
-//              CONTROLLERS
-// =======================================
-//  → be sure to set up your .js file with your routes in the controllers directory (boilerplate here)
-// const <name>Controller = require(`<path to controller .js file>`)
-// app.use(`/<path>, <name>Controller)
+
 
 // // —> example to test if root url is working → used just to triple check your server is working
 app.get(`/`, function (req, res) {
   res.send(`Hello World!`);
 });
 app.get("api", (req, res) => {
-  res.json({ message: "Welcome to the React CRM API" });
+  res.json({ message: "Welcome to Light out" });
 });
 app.get("/api", (req, res) => {
   res.status(400).json({ message: "That route was not found" });
