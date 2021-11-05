@@ -8,7 +8,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
 const User = require("./models/user");
-const usersController = require("./controllers/users");
+
 const expressSession = require("express-session");
 const admin = require("firebase-admin");
 // const serviceAccount = require("../backend/lights-out-auth-firebase-adminsdk-pbg5z-f3314bca46.json");
@@ -60,7 +60,6 @@ app.use(express.json()); // parse json bodies	// access static files in the publ
 app.use(express.urlencoded({ extended: false })); // needed for delete/update/edit routes
 // methodOverride - allows forms to use push/delete methods; '_method' is a query parameter attached to the path for update/delete routes
 app.use(methodOverride("_method"));
-app.use("/", usersController);
 app.use("/reviews", reviewController);
 app.use(
   expressSession({
@@ -112,7 +111,7 @@ app.get(`/`, function (req, res) {
   res.send(`Hello World!`);
 });
 app.get("api", (req, res) => {
-  res.json({ message: "Welcome to Light out" });
+  res.json({ message: "Welcome to lights out" });
 });
 app.get("/api", (req, res) => {
   res.status(400).json({ message: "That route was not found" });
