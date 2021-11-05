@@ -24,23 +24,19 @@ reviewRouter.get("/", (req, res) => {
 
 reviewRouter.get("/:id", (req, res) => {
   Review.findById(req.params.id).exec((err, foundReview) => {
-    console.log(foundReview, err);
     res.status(200).json({ success: true, review: foundReview });
   });
 });
 
 reviewRouter.get("/moviesearch/:movieid", (req, res) => {
   Review.find({ movieId: req.params.movieid }).exec((err, foundReviews) => {
-    console.log(foundReviews, err);
     res.status(200).json({ success: true, review: foundReviews });
   });
 });
 
 reviewRouter.post("/", (req, res) => {
     const review = new Review(req.body);
-    console.log("this is the saved review before", review);
     review.save((error, savedReview) => {
-        console.log("this is the saved review after", savedReview);
       res.status(200).json({ success: true, review: savedReview });
      
     });
